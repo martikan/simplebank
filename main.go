@@ -6,19 +6,19 @@ import (
 
 	"github.com/martikan/simplebank/api"
 	db "github.com/martikan/simplebank/db/sqlc"
+	"github.com/martikan/simplebank/util"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbDriver      = "postgres"
-	dbSource      = "postgresql://root:aaa@localhost:5432/simple_bank?sslmode=disable"
-	serverAddress = "0.0.0.0:8085"
-)
-
 func main() {
 
-	conn, err := sql.Open(dbDriver, dbSource)
+	config, err := util.ConfigUtils.LoadConfig(".")
+	if err != nil {
+		log.Fatal("Cannot load configuration file:", err)
+	}
+
+	conn, err := sql.Open(config.DbDriver, config.DbUrl)
 	if err != nil {
 		log.Fatal("Cannot connect to database", err)
 	}
@@ -26,7 +26,7 @@ func main() {
 	store := db.NewStore(conn)
 
 	server := api.NewServer(store)
-	err = server.Start(serverAddress)
+	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("Cannot start server", err)
 	}
