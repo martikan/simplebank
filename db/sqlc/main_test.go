@@ -2,16 +2,13 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
 
 	_ "github.com/lib/pq"
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:aaa@localhost:5432/simple_bank?sslmode=disable"
+	"github.com/martikan/simplebank/util"
 )
 
 var (
@@ -21,9 +18,14 @@ var (
 
 func TestMain(m *testing.M) {
 
-	var err error
+	config, err := util.ConfigUtils.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("Cannot load configuration file:", err)
+	}
 
-	testDB, err = sql.Open(dbDriver, dbSource)
+	fmt.Println(config.DbUrl)
+
+	testDB, err = sql.Open(config.DbDriver, config.DbUrl)
 	if err != nil {
 		log.Fatal("Cannot connect to database", err)
 	}
