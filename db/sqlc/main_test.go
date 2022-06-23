@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -21,6 +22,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal("Cannot load configuration file:", err)
 	}
+
+	fmt.Println(config.DbUrl)
 
 	testDB, err = sql.Open(config.DbDriver, config.DbUrl)
 	if err != nil {
