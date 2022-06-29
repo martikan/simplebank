@@ -5,7 +5,9 @@ go 1.16
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-playground/validator/v10 v10.11.0
+	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/golang/mock v1.6.0
+	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.6
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/spf13/viper v1.12.0
