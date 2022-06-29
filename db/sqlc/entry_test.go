@@ -12,8 +12,9 @@ import (
 
 func createRandomEntry(t *testing.T) Entry {
 
+	acc1 := createRandomAccount(t)
 	args := CreateEntryParams{
-		AccountID: 1,
+		AccountID: acc1.ID,
 		Amount:    util.RandomUtils.RandomMoney(),
 	}
 

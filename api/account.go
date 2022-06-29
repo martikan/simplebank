@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 	db "github.com/martikan/simplebank/db/sqlc"
 )
 
@@ -20,7 +21,7 @@ type getAccountRequest struct {
 
 type createAccountRequest struct {
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=EUR USD"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 func (s *Server) listAccounts(ctx *gin.Context) {
@@ -84,6 +85,13 @@ func (s *Server) createAccount(ctx *gin.Context) {
 
 	account, err := s.store.CreateAccount(ctx, args)
 	if err != nil {
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code.Name() {
+			case "foreign_key_violation", "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(err))
+				return
+			}
+		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}

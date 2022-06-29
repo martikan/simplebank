@@ -12,9 +12,11 @@ import (
 
 func createRandomTransfer(t *testing.T) Transfer {
 
+	acc1 := createRandomAccount(t)
+	acc2 := createRandomAccount(t)
 	args := CreateTransferParams{
-		FromAccountID: 1,
-		ToAccountID:   2,
+		FromAccountID: acc1.ID,
+		ToAccountID:   acc2.ID,
 		Amount:        util.RandomUtils.RandomMoney(),
 	}
 
