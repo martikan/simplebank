@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -22,6 +23,7 @@ type randomUtilsInterface interface {
 	RandomOwner() string
 	RandomMoney() int64
 	RandomCurrency() string
+	RandomEmail() string
 }
 
 func init() {
@@ -62,4 +64,9 @@ func (r *randomUtils) RandomCurrency() string {
 	currencies := []string{"EUR", "HUF", "USD", "CAD"}
 	n := len(currencies)
 	return currencies[rand.Intn(n)]
+}
+
+// RandomEmail generates a random email
+func (r *randomUtils) RandomEmail() string {
+	return fmt.Sprintf("%s@testmail.com", RandomUtils.RandomString(6))
 }
