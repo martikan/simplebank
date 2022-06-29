@@ -54,14 +54,7 @@ func TestCreateUserAPI(t *testing.T) {
 
 	user, pass := randomUser(t)
 
-	res := CreateUserResponse{
-		ID:                user.ID,
-		Username:          user.Username,
-		Email:             user.Email,
-		FullName:          user.FullName,
-		PasswordChangedAt: user.PasswordChangedAt,
-		CreatedAt:         user.CreatedAt,
-	}
+	res := NewUserResponse(user)
 
 	testCases := []struct {
 		name          string
@@ -196,7 +189,7 @@ func TestCreateUserAPI(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			// Marshal body data to JSON
@@ -230,12 +223,12 @@ func randomUser(t *testing.T) (db.User, string) {
 }
 
 // requireBodyMatchUser Check the controller response.
-func requireBodyMatchUser(t *testing.T, b *bytes.Buffer, usr CreateUserResponse) {
+func requireBodyMatchUser(t *testing.T, b *bytes.Buffer, usr UserResponse) {
 
 	data, err := ioutil.ReadAll(b)
 	require.NoError(t, err)
 
-	var gottenUserRes CreateUserResponse
+	var gottenUserRes UserResponse
 	err = json.Unmarshal(data, &gottenUserRes)
 	require.NoError(t, err)
 	require.Equal(t, usr, gottenUserRes)
