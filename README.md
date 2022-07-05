@@ -10,3 +10,13 @@ Create add_users_table scripts for migration.
 ```bash
 migrate create -ext sql -dir db/migration -seq add_users_table
 ```
+
+## Build docker image locally and run it:
+Build the docker image.
+```bash
+docker build -t simplebank:latest .
+```
+Run it.
+```bash
+docker run --name simplebank --network bank-network -p 8085:8085 -e GIN_MODE=release -e DATASOURCE_URL="postgres://root:aaa@postgres13:5432/simple_bank?sslmode=disable" -d simplebank:latest
+```
