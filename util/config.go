@@ -22,6 +22,9 @@ type Config struct {
 	ServerAddress       string        `mapstructure:"SERVER_ADDRESS"`
 	DbDriver            string        `mapstructure:"DATASOURCE_DRIVER"`
 	DbUrl               string        `mapstructure:"DATASOURCE_URL"`
+	DbDb                string        `mapstructure:"DATASOURCE_DB"`
+	DbUsr               string        `mapstructure:"DATASOURCE_USER"`
+	DbPass              string        `mapstructure:"DATASOURCE_PASSWORD"`
 	TokenSymmetricKey   string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
 	AccessTokenDuration time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 }

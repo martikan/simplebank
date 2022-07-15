@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	"github.com/martikan/simplebank/api"
@@ -18,7 +19,9 @@ func main() {
 		log.Fatal("Cannot load configuration file:", err)
 	}
 
-	conn, err := sql.Open(config.DbDriver, config.DbUrl)
+	url := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", config.DbUsr, config.DbPass, config.DbUrl, config.DbDb)
+
+	conn, err := sql.Open(config.DbDriver, url)
 	if err != nil {
 		log.Fatal("Cannot connect to database", err)
 	}

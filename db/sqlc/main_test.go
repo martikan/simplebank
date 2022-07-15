@@ -23,9 +23,10 @@ func TestMain(m *testing.M) {
 		log.Fatal("Cannot load configuration file:", err)
 	}
 
-	fmt.Println(config.DbUrl)
+	url := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", config.DbUsr, config.DbPass, config.DbUrl, config.DbDb)
+	fmt.Println(url)
 
-	testDB, err = sql.Open(config.DbDriver, config.DbUrl)
+	testDB, err = sql.Open(config.DbDriver, url)
 	if err != nil {
 		log.Fatal("Cannot connect to database", err)
 	}
