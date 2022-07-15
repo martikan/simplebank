@@ -3,7 +3,8 @@
 set -e
 
 echo "run db migration..."
-/app/migrate -path /app/migration -database "postgresql://$DATASOURCE_USER:$DATASOURCE_PASSWORD@$SERVER_ADDRESS/$DATASOURCE_DB?sslmode=disable" -verbose up
+echo "postgresql://$DATASOURCE_USER:$DATASOURCE_PASSWORD@$SERVER_ADDRESS/$DATASOURCE_DB"
+/app/migrate -path /app/migration -database "postgresql://$DATASOURCE_USER:$DATASOURCE_PASSWORD@$SERVER_ADDRESS/$DATASOURCE_DB" -verbose up
 
 echo "start the app..."
 exec "$@"
